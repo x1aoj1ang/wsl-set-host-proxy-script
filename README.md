@@ -6,7 +6,14 @@
 
 1. 打开WSL终端，进入setproxy.py脚本所在的目录。
 
-2. 将setproxy.py和run_setproxy.sh文件放置在一个专门用于存放系统启动脚本的目录中，例如`/etc/init.d/` 或 `/usr/local/sbin/`。这些目录通常包含系统启动时需要运行的脚本文件。请注意，无论您选择将这些文件放置在哪个目录中，都应确保只有root用户和特定的系统服务可以访问和执行这些文件。可以通过更改文件的权限和所有权来限制访问。
+2. 创建一个新的shell脚本文件，例如"run_setproxy.sh"，并在其中添加以下命令：
+
+```bash
+#!/bin/bash
+sudo python3 setproxy.py
+```
+
+将setproxy.py和run_setproxy.sh文件放置在一个专门用于存放系统启动脚本的目录中，例如`/etc/init.d/` 或 `/usr/local/sbin/`。这些目录通常包含系统启动时需要运行的脚本文件。请注意，无论您选择将这些文件放置在哪个目录中，都应确保只有root用户和特定的系统服务可以访问和执行这些文件。可以通过更改文件的权限和所有权来限制访问。
 
 例如，您可以使用以下命令将setproxy.py和run_setproxy.sh文件的所有权设置为root用户：
 
