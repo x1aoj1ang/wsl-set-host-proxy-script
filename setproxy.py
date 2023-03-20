@@ -5,6 +5,7 @@ import socket
 import struct
 import fcntl
 import subprocess
+import re
 
 # 网络地址和端口
 NET_ADDRESS = "192.168.0.1"
@@ -60,11 +61,14 @@ for iface in ifaces:
         try:
             with open(os.devnull, "w") as devnull:
                 subprocess.check_call(["proxychains", "-q", "echo", "Proxychains is working"], stdout=devnull)
-            with open(os.path.expanduser("/etc/proxychains4.conf"), "w") as conf:
-                conf.write("socks5 {0} {1}".format(net_address, PROXY_PORT))
+            with open(os.path.expanduser("/etc/proxychains4.conf"), "r") as f:
+                conf = f.read()
+            conf = re.sub(r'socks\d+\s+\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\s+\d+\n', f'socks5 {net_address} {PROXY_PORT}\n', conf)
+            with open(os.path.expanduser("/etc/proxychains4.conf"), "w") as f:
+                f.write(conf)
             print("Proxychains proxy set to: socks5://{0}:{1}".format(net_address, PROXY_PORT))
         except (subprocess.CalledProcessError, IOError):
-            print("Error: failed to set Proxychains proxy")
+            print("Error: failed to set Proxychains proxy") 
 
         # 找到第一个非本地网卡的IP地址和掩码后退出循环
         break
