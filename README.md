@@ -10,7 +10,7 @@
 
 ```bash
 #!/bin/bash
-sudo python3 setproxy.py
+sudo python3 /etc/init.d/setproxy.py
 ```
 
 将setproxy.py和run_setproxy.sh文件放置在一个专门用于存放系统启动脚本的目录中，例如`/etc/init.d/` 或 `/usr/local/sbin/`。这些目录通常包含系统启动时需要运行的脚本文件。请注意，无论您选择将这些文件放置在哪个目录中，都应确保只有root用户和特定的系统服务可以访问和执行这些文件。可以通过更改文件的权限和所有权来限制访问。
@@ -40,10 +40,12 @@ sudo nano /etc/rc.local
 
 6. 在文件的最后一行添加以下命令：
 
-/path/to/run_setproxy.sh &
+/etc/init.d/run_setproxy.sh &
+
+如果没有这个文件则新建即可，在最开头要加上#!/bin/bash
 
 
-其中，/path/to/run_setproxy.sh应该替换为run_setproxy.sh文件的完整路径。
+其中，/etc/init.d/run_setproxy.sh应该替换为run_setproxy.sh文件的完整路径。
 
 7. 保存并关闭rc.local文件。
 
@@ -52,3 +54,11 @@ sudo nano /etc/rc.local
 请注意，如果您的WSL系统是基于Ubuntu的，您可能需要将rc.local文件的权限设置为可写入，以便能够保存更改。您可以使用以下命令更改rc.local文件的权限：
 
 sudo chmod +w /etc/rc.local
+
+对于ubuntu 2204，可以在/lib/systemd/system/rc-local.service追加一段：
+
+```
+[Install]
+WantedBy=multi-user.target
+```
+
