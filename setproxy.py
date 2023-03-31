@@ -51,8 +51,8 @@ for iface in ifaces:
 
         # 设置Git代理
         try:
-            subprocess.check_call(["git", "config", "--global", "http.proxy", "socks5://{0}:{1}".format(net_address, PROXY_PORT)])
-            subprocess.check_call(["git", "config", "--global", "https.proxy", "socks5://{0}:{1}".format(net_address, PROXY_PORT)])
+            subprocess.check_call(["git", "config", "--system", "http.proxy", "socks5://{0}:{1}".format(net_address, PROXY_PORT)])
+            subprocess.check_call(["git", "config", "--system", "https.proxy", "socks5://{0}:{1}".format(net_address, PROXY_PORT)])
             print("Git proxy set to: socks5://{0}:{1}".format(net_address, PROXY_PORT))
         except subprocess.CalledProcessError:
             print("Error: failed to set Git proxy")
